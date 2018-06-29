@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Challenge 3</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatiable" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="mainstyle.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Armata" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/air-datepicker/2.2.3/css/datepicker.min.css" />
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/air-datepicker/2.2.3/js/datepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/air-datepicker/2.2.3/js/i18n/datepicker.en.js"></script>
+
+    <script src="bulkEdit.js"></script>
+    <script src="clickEvents.js"></script>
+</head>
+
+<body>
+    <div class="jumbotron text-center">
+        <h1>Challenge 3</h1>
+    </div>
+    <!-- <div class="button_div" style="display:none">
+        <button type="button" id="load" class="btn btn-primary btn-lg">Load</button>
+        <button type="button" id="view" class="btn btn-primary btn-lg">View</button>
+        <button type="button" id="edit" class="btn btn-primary btn-lg">Edit</button>
+        <button type="button" id="bulk_edit" class="btn btn-primary btn-lg">Bulk Edit</button>
+
+    </div> -->
+    <ul id="navbar" class="nav nav-pills nav-fill">
+        <li class="nav-item">
+            <a id="load" class="nav-link" href="#">Load</a>
+        </li>
+        <li class="nav-item">
+            <a id="view" class="nav-link" href="#">View</a>
+        </li>
+        <li class="nav-item">
+            <a id="edit" class="nav-link" href="#">Edit</a>
+        </li>
+        <li class="nav-item">
+            <a id="bulk_edit" class="nav-link" href="#">Bulk Edit</a>
+        </li>
+    </ul>
+    <div>
+        <table class="table" style="visibility:visible" id="mytable">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Event</th>
+                    <th scope="col">Topic</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Speaker</th>
+                    <th scope="col">Building</th>
+                    <th scope="col">Room</th>
+                </tr>
+            </thead>
+            <tbody class="table_body">
+
+            </tbody>
+        </table>
+    </div>
+
+
+
+    <button style="display:none" type="button" id="btnTrigger" data-toggle="modal" data-target="#myModal"> </button>
+    <button style="display:none" type="button" id="bulkbtnTrigger" data-toggle="modal" data-target="#bulkModal"> </button>
+
+
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="myModalLabel"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+                </div>
+                <div class="modal-body">
+                    <form id="editForm" method="post">
+                        <input type="hidden" id="inputEventId" name="event_id">
+                        <div class="form-group">
+                            <label for="inputEvent">Title</label>
+                            <input type="text" class="form-control" id="inputEvent" name="title">
+                        </div>
+                        <div class="form-group">
+                            <label for="inputTopic">Topic</label>
+                            <select required class="form-control" id="inputTopic" name="topic">
+
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputDate">Date</label>
+                            <input required type="date" class="form-control" id="inputDate" name="date">
+                        </div>
+                        <div class="form-group">
+                            <label for="inputSpeaker">Speaker</label>
+                            <select class="form-control" id="inputSpeaker" name="speaker">
+
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputBuilding">Building</label>
+                            <select class="form-control" id="inputBuilding" name="building">
+
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputRoom">Room</label>
+                            <select required class="form-control" id="inputRoom" name="room">
+
+                            </select>
+                            <small id="room_small">Please select building first</small>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="close" data-dismiss="modal">Close</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="modal fade" id="bulkModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="bulkModalLabel">Bulk Edit</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+                </div>
+                <div class="modal-body">
+                    <form id="bulkForm" method="post">
+                        <div class="row">
+                            <div class="form-group col-sm-6">
+                                <label for="inputChangeCategory">Change From: </label>
+                                <select required class="form-control" id="inputFromCategory" name="fromCategory">
+                                <option>Title</option>
+                                <option>Topic</option>
+                                <option>Date</option>
+                                <option>Speaker</option>
+                                <option>Building/Room</option>
+
+                            </select>
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <label for="inputChangeFrom">From: </label>
+                                <select required class="form-control" id="inputChangeFrom" name="changeFrom">
+
+                            </select>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-sm-6">
+                                <label for="inputChangeTo">Change To: </label>
+                                <select required class="form-control" id="inputToCategory" name="toCategory">
+                                <option>Title</option>
+                                <option>Topic</option>
+                                <option>Date</option>
+                                <option>Speaker</option>
+                                <option>Building/Room</option>
+                            </select>
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <label for="inputChangeTo">To: </label>
+                                <select required class="form-control" id="inputChangeTo" name="changeTo">
+
+                            </select>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script>
+        var buildingName = "";
+        $(".table_body").on('click', '.clickable-row', function() {
+            $('#myModalLabel').text("Editing Event ID: " + $(this).attr('id'));
+            $('#inputEventId').attr("value", $(this).attr('id'));
+            $("#room_small").attr("style", "visibility:visible")
+
+            var row = $(this).find('th');
+            /*Sets the modal's default value
+            row[1] = event
+            row[2] = topic
+            row[3] = Description
+            row[4] = date
+            row[5] = speaker
+            row[6] = building
+            row[7] = room
+            */
+            $('#inputEvent').attr("value", row[1].innerHTML.trim());
+            $('#inputTopic').attr("value", row[2].innerHTML.trim());
+            $('#inputDate').attr("value", row[4].innerHTML.trim());
+            $('#inputSpeaker').attr("value", row[5].innerHTML.trim());
+            $('#inputBuilding').attr("value", row[6].innerHTML.trim());
+
+            /*cleans up option tags before searching DB for all valid values*/
+            $('#inputSpeaker').children().remove();
+            $('#inputBuilding').children().remove();
+            $('#inputRoom').children().remove();
+
+
+
+            /*retrieves speakers*/
+            $.get("getSpeakers.php", function(data) {
+                data = $.parseJSON(data);
+                var options = "";
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].speaker_name == row[5].innerHTML.trim()) {
+                        options += "<option selected>" + data[i].speaker_name + "</option> \n";
+                    } else {
+                        options += "<option>" + data[i].speaker_name + "</option> \n";
+                    }
+                }
+                $("#inputSpeaker").append(options)
+
+            });
+
+            /*retrieves buildings*/
+            $.get("getBuildings.php", function(data) {
+                data = $.parseJSON(data);
+                options = "<option>N/A</option>";
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].building_name == row[6].innerHTML.trim()) {
+                        options += "<option selected>" + data[i].building_name + "</option> \n";
+                    } else {
+                        options += "<option>" + data[i].building_name + "</option> \n";
+                    }
+                }
+                $("#inputBuilding").append(options)
+
+            });
+
+            /*retrieves topics*/
+            $.get("getTopics.php", function(data) {
+                data = $.parseJSON(data);
+                options = "<option>N/A</option>";
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].topic_name == row[2].innerHTML.trim()) {
+                        options += "<option selected>" + data[i].topic_name + "</option> \n";
+                    } else {
+                        options += "<option>" + data[i].topic_name + "</option> \n";
+                    }
+                }
+                $("#inputTopic").append(options)
+
+            });
+
+
+            /*retrieves rooms*/
+            $("#inputBuilding").off().on("click", function(e) {
+                var options = "";
+                var data = "";
+
+                $('#inputRoom').children().remove();
+                var buildingName = $(this).val();
+                if (buildingName != "N/A") {
+
+                    $("#room_small").attr("style", "visibility:hidden");
+
+
+                    $.get("getRooms.php", {
+                        building: buildingName
+                    }, function(data) {
+                        var data = $.parseJSON(data);
+
+                        for (var i = 0; i < data.length; i++) {
+                            options += "<option>" + data[i].room_name + "</option> \n";
+                        }
+                        $("#inputRoom").append(options);
+                    })
+                }
+            })
+
+
+            /*forces the modal to prompt*/
+            $('#btnTrigger').click();
+        });
+
+        $("#close").on("mousedown", function() {
+            $("#inputRoom").children.remove();
+        })
+
+        /*repopulate already filled in building and room*/
+        $("#myModal").ready(function() {
+            if (!$("#inputBuilding").val() || $("#inputBuilding").val() != "N/A") {
+                var buildingName = $("#inputBuilding").val();
+                $.get("getRooms.php", {
+                    building: buildingName
+                }, function(data) {
+                    data = $.parseJSON(data);
+                    options = "";
+                    for (var i = 0; i < data.length; i++) {
+                        if (data[i].room_name == row[7].innerHTML.trim()) {
+                            options += "<option selected>" + data[i].room_name + "</option> \n";
+                        } else {
+                            options += "<option>" + data[i].room_name + "</option> \n";
+                        }
+                    }
+
+                    $("#inputRoom").append(options);
+                })
+            }
+        });
+
+        $('#editForm').on('submit', function(e) {
+            e.preventDefault();
+            $.ajax({
+                type: 'post',
+                url: 'process.php',
+                data: $('#editForm').serialize(),
+                success: function() {
+                    alert("Upated!");
+                    $('#edit').click();
+                    $('#close').click();
+                }
+
+            });
+        });
+
+        $('#bulkForm').on('submit', function(e) {
+            e.preventDefault();
+            $.ajax({
+                type: 'post',
+                url: 'bulkProcess.php',
+                data: $('#bulkForm').serialize(),
+                success: function(data) {
+                    alert("Updated!");
+                    $("#view").click();
+
+                }
+
+            });
+        });
+    </script>
+    <script src="clickEvents.js"></script>
+    <script src="bulkEdit.js"></script>
+</body>
+
+</html>
